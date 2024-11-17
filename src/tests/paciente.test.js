@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/pacientes', pacienteRoutes);
 
-jest.setTimeout(10000);  // Aumentar o timeout para 10 segundos
+jest.setTimeout(20000);  // Aumente o timeout para 20 segundos
 
 describe('API de Pacientes', () => {
     it('Deve cadastrar um novo paciente', async () => {

@@ -1,10 +1,16 @@
-const db = require('../config/db');
+const db = require('../config/knex');
 
-exports.createPaciente = (req, res) => {
-    const { nome, data_nascimento, telefone, email, endereco } = req.body;
-    const sql = 'INSERT INTO pacientes (nome, data_nascimento, telefone, email, endereco) VALUES (?, ?, ?, ?, ?)';
-    db.query(sql, [nome, data_nascimento, telefone, email, endereco], (err, result) => {
-        if (err) throw err;
-        res.send('Paciente cadastrado com sucesso!');
-    });
+exports.createPaciente = async (req, res) => {
+  const { nome, data_nascimento, telefone, email, endereco } = req.body;
+  try {
+    console.log('Tentando conectar ao banco de dados...');
+    await db.raw('SELECT 1+1 AS result');
+    console.log('Conexão ao banco de dados bem-sucedida.');
+
+    await db('pacientes').insert({ nome, data_nascimento, telefone, email, endereco });
+    res.send('Paciente cadastrado com sucesso!');
+  } catch (err) {
+    console.error('Erro ao cadastrar paciente:', err);
+    res.status(500).send('Erro ao cadastrar paciente.');
+  }
 };

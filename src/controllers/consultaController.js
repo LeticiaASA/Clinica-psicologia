@@ -1,10 +1,11 @@
-const db = require('../config/db');
+const db = require('../config/knex');
 
-exports.createConsulta = (req, res) => {
-    const { id_paciente, data_hora, motivo } = req.body;
-    const sql = 'INSERT INTO consultas (id_paciente, data_hora, motivo) VALUES (?, ?, ?)';
-    db.query(sql, [id_paciente, data_hora, motivo], (err, result) => {
-        if (err) throw err;
-        res.send('Consulta agendada com sucesso!');
-    });
+exports.createConsulta = async (req, res) => {
+  const { id_paciente, data_hora, motivo } = req.body;
+  try {
+    await db('consultas').insert({ id_paciente, data_hora, motivo });
+    res.send('Consulta agendada com sucesso!');
+  } catch (err) {
+    res.status(500).send('Erro ao agendar consulta.');
+  }
 };
