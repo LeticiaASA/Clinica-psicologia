@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Pacientes</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
         <h1>Cadastro de Pacientes</h1>
     </header>
     <main>
-        <form id="cadastro-paciente-form">
+        <form id="cadastro-paciente-form" action="/pacientes" method="POST">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" aria-label="Nome">
             <br>
@@ -26,11 +27,42 @@
             <label for="endereco">Endereço:</label>
             <textarea id="endereco" name="endereco" aria-label="Endereço"></textarea>
             <br>
-            <input type="submit" value="Cadastrar" tabindex="0">
+            <input type="submit" value="Cadastrar">
         </form>
+        <div id="mensagem"></div>
     </main>
     <footer>
-        <!-- Coloque aqui o conteúdo do footer -->
+        Cláudia Alaide - Psicóloga CRP: 06/162141 <br> (11) 97957-9009 alaide.claudia@gmail.com
     </footer>
+    <script>
+        const form = document.getElementById('cadastro-paciente-form');
+        const mensagem = document.getElementById('mensagem');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/pacientes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    mensagem.textContent = 'Paciente cadastrado com sucesso!';
+                    mensagem.style.color = 'green';
+                    form.reset();
+                } else {
+                    mensagem.textContent = 'Erro ao cadastrar paciente.';
+                    mensagem.style.color = 'red';
+                }
+            } catch (error) {
+                mensagem.textContent = 'Erro ao cadastrar paciente.';
+                mensagem.style.color = 'red';
+            }
+        });
+    </script>
 </body>
 </html>

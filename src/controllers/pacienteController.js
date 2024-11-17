@@ -8,7 +8,7 @@ exports.createPaciente = async (req, res) => {
     console.log('Conexão ao banco de dados bem-sucedida.');
 
     await db('pacientes').insert({ nome, data_nascimento, telefone, email, endereco });
-    res.send('Paciente cadastrado com sucesso!');
+    res.status(200).send('Paciente cadastrado com sucesso!');
   } catch (err) {
     console.error('Erro ao cadastrar paciente:', err);
     res.status(500).send('Erro ao cadastrar paciente.');
