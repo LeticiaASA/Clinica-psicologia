@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Diretório do MySQL
+mysql-data/
+
+# Environment variables
+.env
+
+# Diretorios do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Jest coverage
+coverage/
+
+# IDEs e editores
+.vscode/
+.idea/
+
+# Test result logs
+jest-html-reporter.html
+jest_results/
+
+# Transpiled files
+dist/
+build/

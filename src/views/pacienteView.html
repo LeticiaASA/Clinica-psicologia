@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro de Pacientes</title>
+</head>
+<body>
+    <h1>Cadastro de Pacientes</h1>
+    <form id="cadastro-paciente-form">
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" aria-label="Nome">
+        <br>
+        <label for="data_nascimento">Data de Nascimento:</label>
+        <input type="date" id="data_nascimento" name="data_nascimento" aria-label="Data de Nascimento">
+        <br>
+        <label for="telefone">Telefone:</label>
+        <input type="text" id="telefone" name="telefone" aria-label="Telefone">
+        <br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" aria-label="Email">
+        <br>
+        <label for="endereco">Endereço:</label>
+        <textarea id="endereco" name="endereco" aria-label="Endereço"></textarea>
+        <br>
+        <input type="submit" value="Cadastrar" tabindex="0">
+    </form>
+
+    <script>
+        document.getElementById('cadastro-paciente-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const data = {
+                nome: document.getElementById('nome').value,
+                data_nascimento: document.getElementById('data_nascimento').value,
+                telefone: document.getElementById('telefone').value,
+                email: document.getElementById('email').value,
+                endereco: document.getElementById('endereco').value
+            };
+
+            fetch('/pacientes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.text())
+            .then(data => alert(data))
+            .catch(error => console.error('Erro:', error));
+        });
+    </script>
+</body>
+</html>
