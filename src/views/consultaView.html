@@ -1,62 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agendamento de Consultas</title>
-    <link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendamento de Consultas</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <header>
-        <h1>Agendamento de Consultas</h1>
-    </header>
-    <main>
-        <form id="agendamento-consulta-form" action="/consultas" method="POST">
-            <label for="id_paciente">ID do Paciente:</label>
-            <input type="number" id="id_paciente" name="id_paciente" aria-label="ID do Paciente">
-            <br>
-            <label for="data_hora">Data e Hora:</label>
-            <input type="datetime-local" id="data_hora" name="data_hora" aria-label="Data e Hora">
-            <br>
-            <label for="motivo">Demanda:</label>
-            <textarea id="motivo" name="motivo" aria-label="Motivo"></textarea>
-            <br>
-            <input type="submit" value="Agendar">
-        </form>
-        <div id="mensagem-consulta"></div>
-    </main>
-    <footer>
-        Cláudia Alaide - Psicóloga CRP: 06/162141 <br> (11) 97957-9009 alaide.claudia@gmail.com>
-    </footer>
-    <script>
-        const formConsulta = document.getElementById('agendamento-consulta-form');
-        const mensagemConsulta = document.getElementById('mensagem-consulta');
+  <header>
+    <h1>Agendamento de Consultas</h1>
+  </header>
 
-        formConsulta.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(formConsulta);
-            const data = Object.fromEntries(formData);
+  <main>
+    <form id="agendamento-consulta-form">
+      <label for="id_paciente">Nome do Paciente:</label>
+      <select id="id_paciente" name="id_paciente" required>
+        <option value="">Selecione um paciente</option>
+      </select>
 
-            try {
-                const response = await fetch('/consultas', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
+      <label for="data_hora">Data e Hora:</label>
+      <input type="datetime-local" id="data_hora" name="data_hora" required>
 
-                if (response.ok) {
-                    mensagemConsulta.textContent = 'Consulta agendada com sucesso!';
-                    mensagemConsulta.style.color = 'green';
-                    formConsulta.reset();
-                } else {
-                    mensagemConsulta.textContent = 'Erro ao agendar consulta.';
-                    mensagemConsulta.style.color = 'red';
-                }
-            } catch (error) {
-                mensagemConsulta.textContent = 'Erro ao agendar consulta.';
-                mensagemConsulta.style.color = 'red';
-            }
+      <label for="motivo">Demanda:</label>
+      <textarea id="motivo" name="motivo" rows="4"></textarea>
+
+      <input type="submit" value="Agendar Consulta">
+    </form>
+
+    <div id="mensagem-consulta"></div>
+  </main>
+
+  <footer>
+    Cláudia Alaide - Psicóloga CRP: 06/162141 <br> 
+    (11) 97957-9009 - alaide.claudia@gmail.com
+  </footer>
+
+  <script>
+  async function carregarPacientes() {
+    const response = await fetch('/pacientes');
+    const pacientes = await response.json();
+
+    const select = document.getElementById('paciente_id');
+    pacientes.forEach(paciente => {
+      const option = document.createElement('option');
+      option.value = paciente.id;
+      option.textContent = paciente.nome;
+      select.appendChild(option);
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', carregarPacientes);
+
+
+    const formConsulta = document.getElementById('agendamento-consulta-form');
+    const mensagemConsulta = document.getElementById('mensagem-consulta');
+    const pacienteSelect = document.getElementById('id_paciente');
+
+    async function carregarPacientes() {
+      try {
+        const response = await fetch('/pacientes');
+        const pacientes = await response.json();
+
+        pacientes.forEach(paciente => {
+          const option = document.createElement('option');
+          option.value = paciente.id;
+          option.textContent = paciente.nome;
+          pacienteSelect.appendChild(option);
         });
-    </script>
+      } catch (error) {
+        console.error('Erro ao carregar pacientes:', error);
+      }
+    }
+
+    formConsulta.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const formData = new FormData(formConsulta);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('/consultas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          mensagemConsulta.textContent = 'Consulta agendada com sucesso!';
+          mensagemConsulta.style.color = 'green';
+          formConsulta.reset();
+        } else {
+          mensagemConsulta.textContent = 'Erro ao agendar consulta.';
+          mensagemConsulta.style.color = 'red';
+        }
+      } catch (error) {
+        mensagemConsulta.textContent = 'Erro ao agendar consulta.';
+        mensagemConsulta.style.color = 'red';
+      }
+    });
+
+    // Carregar nomes dos pacientes ao carregar a página
+    carregarPacientes();
+  </script>
 </body>
 </html>

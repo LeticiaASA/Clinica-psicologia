@@ -1,16 +1,12 @@
-const mysql = require('mysql');
-require('dotenv').config();
-
-const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: 'Univesp@compass',
-    database: 'clinica_psicologia'
-});
-
-db.connect(err => {
-    if (err) throw err;
-    console.log('Conectado ao banco de dados MySQL.');
+const db = knex({
+  client: 'mysql2',
+  connection: {
+    host: process.env.DB_HOST || '127.0.0.1',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'Univesp@compass',
+    database: process.env.DB_NAME || 'clinica_psicologia'
+  },
+  pool: { min: 0, max: 10 } // Opcional, mas recomendado para controle de conexões
 });
 
 module.exports = db;

@@ -1,53 +1,178 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    background-image: url('/image/Logo.png.png');
-    background-repeat: no-repeat;
-    background-position: left center;
-     
-    
+    margin: 0;
+    padding: 0;
+    font-family: 'Comic Sans MS', 'Comic Neue', cursive, sans-serif;
+    background: url("/image/Logo.png.png") no-repeat center center fixed;
+    background-size: 250px auto;
+    background-color: #f5f2e8; /* tom de bege suave */
+    color: #3d2b1f; /* marrom escuro */
 }
 
 header, footer {
-    background-color: #425c06;
-    color: white;
     text-align: center;
-    padding: 1rem;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #3d2b1f;
 }
 
 main {
-    padding: 1rem;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-form {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    margin: 2rem auto;
-}
-
-label {
+form label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #3d2b1f;
 }
 
-input, textarea {
+input, select, textarea {
     width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #a5a58d;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
 }
 
-input[type="submit"] {
-    background-color: #425c06;
+input[type="submit"], button {
+    background-color: #6a994e; /* verde oliva */
     color: white;
+    padding: 10px 20px;
     border: none;
+    border-radius: 10px;
+    font-weight: bold;
     cursor: pointer;
+    font-size: 14px;
 }
 
-input[type="submit"]:hover {
-    background-color: #425c06;
+input[type="submit"]:hover, button:hover {
+    background-color: #588157;
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    text-align: left;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+}
+
+th {
+    background-color: #a5a58d;
+    color: white;
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 0.9em;
+}
+/* Centralizar e dar estilo geral */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 10px;
+  }
+  
+  /* Estilo da seção de busca */
+  .search-section {
+    max-width: 600px;
+    width: 100%;
+    background-color: rgba(253, 250, 245, 0.6); /* bege claro com transparência */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+  }
+  
+  /* Estilo dos campos de busca */
+  .search-section label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  
+  .search-section input[type="text"],
+  .search-section input[type="date"] {
+    background-color: rgba(255, 255, 255, 0.5); /* branco com leve transparência */
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 12px;
+  }
+  
+  /* Botões */
+  .search-section button {
+    background-color: #4c7c4c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 8px;
+  }
+  
+  .search-section button:hover {
+    background-color: #3e6b3e;
+  }
+  
+  /* Agrupamento de campos */
+  .search-by-name,
+  .search-by-date {
+    margin-bottom: 20px;
+  }
+  
+  /* Seção do relatório */
+  .report-section {
+    max-width: 800px;
+    width: 100%;
+    background-color: rgba(253, 250, 245, 0.6);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Tabela de consultas */
+  .report-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .report-section th {
+    background-color: rgba(76, 124, 76, 0.9);
+    color: white;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .report-section td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .report-section tr:nth-child(even) td {
+    background-color: rgba(240, 240, 240, 0.6);
+  }
+  

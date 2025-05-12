@@ -1,5 +1,4 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
 const pacienteRoutes = require('./routes/pacienteRoutes');
@@ -8,7 +7,8 @@ const consultaRoutes = require('./routes/consultaRoutes');
 const app = express();
 
 // Middleware
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Servir arquivos estáticos
@@ -27,6 +27,12 @@ app.get('/', (req, res) => {
 app.get('/consultas', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'consultaView.html'));
 });
+
+// Rota para painel administrativo
+app.get('/admin', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'admin.html'));
+  });
+  
 
 // Inicializar o servidor
 const PORT = process.env.PORT || 3000;

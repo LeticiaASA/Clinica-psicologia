@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel Administrativo</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+  <header>
+    <h1>Painel Administrativo</h1>
+  </header>
+
+  <div class="container">
+    <section class="search-section">
+      <h2>Buscar Consultas</h2>
+
+      <div class="search-options">
+        <!-- Busca por nome do paciente -->
+        <div class="search-by-name">
+          <label for="nomePaciente">Nome do Paciente:</label>
+          <input type="text" id="nomePaciente" placeholder="Digite o nome do paciente">
+          <button onclick="buscarRelatorioPorNome()">Buscar</button>
+        </div>
+
+        <!-- Busca por período -->
+        <div class="search-by-date">
+          <label for="dataInicial">Data Inicial:</label>
+          <input type="date" id="dataInicial">
+          <label for="dataFinal">Data Final:</label>
+          <input type="date" id="dataFinal">
+          <button onclick="buscarRelatorioPorData()">Buscar por Data</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="report-section">
+      <h2>Relatório de Consultas</h2>
+
+      <table id="tabelaRelatorio">
+        <thead>
+          <tr>
+            <th>Paciente</th>
+            <th>Data</th>
+            <th>Motivo</th>
+            <th>Valor</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Resultados serão inseridos aqui -->
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+  <footer>
+    Cláudia Alaide - Psicóloga CRP: 06/162141 <br>
+(11) 97957-9009 - alaide.claudia@gmail.com
+  </footer>
+
+  <script>
+    // Função para buscar consultas por nome
+    async function buscarRelatorioPorNome() {
+      const nome = document.getElementById('nomePaciente').value.trim();
+
+      if (!nome) {
+        alert('Por favor, digite um nome.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/consultas/relatorio/nome/${encodeURIComponent(nome)}`);
+        const dados = await response.json();
+
+        const tabela = document.getElementById('tabelaRelatorio').getElementsByTagName('tbody')[0];
+        tabela.innerHTML = '';
+
+        if (dados.length === 0) {
+          tabela.innerHTML = '<tr><td colspan="5">Nenhum resultado encontrado.</td></tr>';
+          return;
+        }
+
+        dados.forEach((item) => {
+          const linha = tabela.insertRow();
+          linha.innerHTML = `
+            <td>${item.nome}</td>
+            <td>${new Date(item.data_hora).toLocaleString('pt-BR')}</td>
+            <td>${item.motivo}</td>
+            <td>R$ ${parseFloat(item.valor).toFixed(2)}</td>
+            <td>${item.status}</td>
+          `;
+        });
+      } catch (erro) {
+        console.error('Erro ao buscar relatório:', erro);
+        alert('Erro ao buscar relatório.');
+      }
+    }
+
+    // Função para buscar consultas por data
+    async function buscarRelatorioPorData() {
+      const dataInicial = document.getElementById('dataInicial').value;
+      const dataFinal = document.getElementById('dataFinal').value;
+
+      if (!dataInicial || !dataFinal) {
+        alert('Por favor, preencha as datas.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/consultas/relatorio/data?inicio=${dataInicial}&fim=${dataFinal}`);
+        const dados = await response.json();
+
+        const tabela = document.getElementById('tabelaRelatorio').getElementsByTagName('tbody')[0];
+        tabela.innerHTML = '';
+
+        if (dados.length === 0) {
+          tabela.innerHTML = '<tr><td colspan="5">Nenhum resultado encontrado.</td></tr>';
+          return;
+        }
+
+        dados.forEach((item) => {
+          const linha = tabela.insertRow();
+          linha.innerHTML = `
+            <td>${item.nome}</td>
+            <td>${new Date(item.data_hora).toLocaleString('pt-BR')}</td>
+            <td>${item.motivo}</td>
+            <td>R$ ${parseFloat(item.valor).toFixed(2)}</td>
+            <td>${item.status}</td>
+          `;
+        });
+      } catch (erro) {
+        console.error('Erro ao buscar relatório:', erro);
+        alert('Erro ao buscar relatório.');
+      }
+    }
+  </script>
+
+</body>
+</html>
